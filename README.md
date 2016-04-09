@@ -125,6 +125,14 @@ This attribute can take the following string values:
 <div pickadate select-other-months="next"></div>
 ```
 
+#### on-date-select
+
+The calendar will call the specified callback function with the ```date``` attribute when a date gets selected.
+
+```html
+<div pickadate on-date-select="saveDate(date)"></div>
+```
+
 ### I18n & Icons
 
 Pickadate uses angular `$locale` module for the date translations. If you want to have the calendar in any other language, please include the corresponding AngularJS i18n files. You can get them here: [https://code.angularjs.org/1.3.0/i18n/](https://code.angularjs.org/1.3.0/i18n/).
