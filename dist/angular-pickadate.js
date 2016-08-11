@@ -76,6 +76,11 @@
         });
 
         element.on('keydown', function(e) {
+          if ((this.value.length >= 10 && e.keyCode != 8 && e.keyCode != 46) ||
+            (e.keyCode != 111 && e.keyCode != 191 && e.keyCode != 8 && e.keyCode != 46 &&
+            (e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105))) {
+            e.preventDefault();
+          }
           if (indexOf.call([9, 13, 27], e.keyCode) >= 0) togglePicker(false);
         });
 
@@ -265,10 +270,10 @@
               selectedDates           = [],
               wantsModal              = element[0] instanceof HTMLInputElement,
               compiledHtml            = $compile(TEMPLATE)(scope),
-              format                  = (attrs.format || 'yyyy-MM-dd').replace(/m/g, 'M'),
+              format                  = (attrs.format || 'dd/MM/yyyy').replace(/m/g, 'M'),
               dateHelper              = dateHelperFactory(format, {
-                previousMonthSelectable: /^(previous|both)$/.test(attrs.selectOtherMonths),
-                nextMonthSelectable:     /^(next|both)$/.test(attrs.selectOtherMonths),
+                previousMonthSelectable: attrs.selectOtherMonths ? /^(previous|both)$/.test(attrs.selectOtherMonths) : true,
+                nextMonthSelectable: attrs.selectOtherMonths ? /^(next|both)$/.test(attrs.selectOtherMonths) : true,
                 weekStartsOn: scope.weekStartsOn,
                 noExtraRows: attrs.hasOwnProperty('noExtraRows'),
                 disableWeekends: attrs.hasOwnProperty('disableWeekends')
@@ -339,9 +344,9 @@
               return ngModel.$viewValue;
             }, function(val) {
               var isValidDate = dateHelper.parseDate(val);
-
               if (isValidDate) $render({ skipRenderInput: true });
-              ngModel.$setValidity('date', !!isValidDate);
+            ngModel.$setValidity('invalid-date-format', (val === undefined && element.val().length == 10) || !!isValidDate);
+            ngModel.$setValidity('date-selected-is-disabled', !(val === undefined && element.val().length == 10));
             });
 
             // if the input element has a value, set it as the ng-model
