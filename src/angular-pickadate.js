@@ -77,7 +77,7 @@
 
         element.on('keydown', function(e) {
           if ((this.value.length >= 10 && e.keyCode != 8 && e.keyCode != 46) ||
-            (e.keyCode != 111 && e.keyCode != 191 && e.keyCode != 8 && e.keyCode != 46 &&
+            (e.keyCode != 111 && e.keyCode != 191 && e.keyCode != 193 && e.keyCode != 8 && e.keyCode != 46 &&
             (e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105))) {
             e.preventDefault();
           }
